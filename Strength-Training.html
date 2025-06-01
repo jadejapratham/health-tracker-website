@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strength Training - NutrifitTech</title>
+    <link rel="stylesheet" href="strength-training.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Nutrifit<span>Tech</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="index.html#key-features">Features</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+    </nav>
+
+    
+
+    <section class="strength-training-page">
+        <div class="page-header">
+            <h1><i class="fas fa-dumbbell"></i> Strength Training</h1>
+            <p>
+                Track your weight lifting sessions with detailed exercise breakdowns and progress analytics
+            </p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="strength-form-section">
+            <form id="strengthForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="workoutDate"><i class="far fa-calendar-alt"></i> Date</label>
+                        <input type="date" id="workoutDate" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="workoutType"><i class="fas fa-running"></i> Workout Type</label>
+                        <select id="workoutType" required>
+                            <option value="">Select workout type</option>
+                            <option value="upper-body">Upper Body</option>
+                            <option value="lower-body">Lower Body</option>
+                            <option value="full-body">Full Body</option>
+                            <option value="core">Core</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration"><i class="far fa-clock"></i> Duration (minutes)</label>
+                        <input type="number" id="duration" min="1" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="calories"><i class="fas fa-fire"></i> Calories Burned</label>
+                        <input type="number" id="calories" />
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="exercises"><i class="fas fa-list-ol"></i> Exercises</label>
+                        <div id="exerciseContainer">
+                            <!-- Exercises will be added here dynamically -->
+                        </div>
+                        <button type="button" id="addExercise" class="btn btn-secondary">
+                            <i class="fas fa-plus"></i> Add Exercise
+                        </button>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="notes"><i class="far fa-edit"></i> Notes</label>
+                        <textarea id="notes" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="calories-btn" id="caloriesBtn">
+                        <i class="fas fa-calculator"></i> Calculate Calories
+                    </button>
+                    <button type="submit" class="btn btn-save">
+                        <i class="fas fa-save"></i> Save Workout
+                    </button>
+                    <button type="reset" class="btn btn-cancel">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Statistics Dashboard -->
+        <div class="stats-dashboard">
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalWorkouts">0</div>
+                    <div class="stat-label">Total Workouts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalDuration">0</div>
+                    <div class="stat-label">Total Minutes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalExercises">0</div>
+                    <div class="stat-label">Total Exercises</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCalories">0</div>
+                    <div class="stat-label">Total Calories</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="workoutChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Workout History -->
+        <div class="workout-history">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Workout History</h2>
+                <div class="history-actions">
+                    <button class="btn btn-export" id="exportData">
+                        <i class="fas fa-file-export"></i> Export Data
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="workoutTable">
+                    <thead>
+                        <tr>
+                            <th data-sort="date">Date <i class="fas fa-sort"></i></th>
+                            <th data-sort="type">Type <i class="fas fa-sort"></i></th>
+                            <th data-sort="duration">Duration <i class="fas fa-sort"></i></th>
+                            <th data-sort="exercises">Exercises <i class="fas fa-sort"></i></th>
+                            <th data-sort="calories">Calories <i class="fas fa-sort"></i></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Nutrifit<span class="color">Tech</span></h3>
+                <p>Personalized Nutrition & Fitness Management for a healthier lifestyle.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About us</a></li>
+                    <li><a href="index.html#key-features">Features</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> support@healthtrack.com</li>
+                    <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Bangalore, India</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 NutrifitTech. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <div id="caloriesModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Calories Burn Calculator</h2>
+            <div class="calculator">
+                <div class="form-group">
+                    <label for="activity">Activity:</label>
+                    <select id="activity">
+                        <option value="running">Running (8 mph, 7.5 min/mile)</option>
+                        <option value="cycling">Cycling (12-13.9 mph, vigorous)</option>
+                        <option value="swimming">Swimming (freestyle, vigorous)</option>
+                        <option value="walking">Walking (3.5 mph, brisk pace)</option>
+                        <option value="weightlifting">Weightlifting (vigorous)</option>
+                        <option value="calisthenics">Calisthenics (virorous)</option>
+                        <option value="yoga">Yoga (Hatha)</option>
+                        <option value="aerobics">Aerobics (high impact)</option>
+                        <option value="basketball">Basketball (game)</option>
+                        <option value="tennis">Tennis (singles)</option>
+                        <option value="soccer">Soccer (casual)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration (minutes):</label>
+                    <input type="number" id="duration" min="1" value="30">
+                </div>
+                <div class="form-group">
+                    <label for="weight">Body Weight (kg):</label>
+                    <input type="number" id="weight" min="30" value="70">
+                </div>
+                <button type="button" class="calc-btn" id="calculateBtn">Calculate Calories Burned</button>
+                <div id="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="strength-training.js"></script>
+</body>
+</html>

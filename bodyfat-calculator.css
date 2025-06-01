@@ -1,0 +1,353 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: rgba(0, 0, 0, 0.2); 
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.logo span {
+    color: #4CAF50; 
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+    color: #4CAF50;
+}
+
+body {
+    background: #121212;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    margin-top: 35px;
+}
+
+.bodyfat-calculator {
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    color: #4CAF50;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.page-header p {
+    color: #bbb;
+    font-size: 1.1rem;
+}
+
+.calculator-container {
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.method-selector {
+    margin-bottom: 20px;
+}
+
+.method-selector select {
+    width: 100%;
+    padding: 12px;
+    background: #333;
+    border: 1px solid #444;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #bbb;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    background: #333;
+    border: 1px solid #444;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+}
+
+/* Visual Estimator Slider */
+.visual-method input[type="range"] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.visual-method img {
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 10px;
+}
+
+
+.btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    background: #4CAF50;
+    color: #fff;
+    border: 1px solid #4CAF50
+}
+
+.btn:hover {
+    background: #5bd061;
+}
+
+.results {
+    margin-top: 30px;
+    text-align: center;
+    padding: 20px;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 8px;
+}
+
+.result-value {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #4CAF50;
+    margin: 15px 0;
+}
+
+.result-category {
+    font-size: 1.2rem;
+    color: #bbb;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .bodyfat-calculator {
+        padding: 20px 10px;
+    }
+    
+    .calculator-container {
+        padding: 20px;
+    }
+}
+
+:root {
+    --primary: #4CAF50;
+    --primary-dark: #3d8b40;
+    --primary-light: #5bd061;
+    --secondary: #2ecc71;
+    --danger: #f44336;
+    --warning: #f39c12;
+    --info: #3498db;
+    --light: #ecf0f1;
+    --dark: #121212;
+    --darker: #0a0a0a;
+    --darkest: #050505;
+    --text-primary: #ffffff;
+    --text-secondary: #bbbbbb;
+    --text-tertiary: #888888;
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-tertiary: #252525;
+    --bg-quaternary: #333333;
+    --border-color: #444444;
+    --border-light: #555555;
+}
+
+.footer {
+    background: linear-gradient(135deg, var(--darkest), var(--darker));
+    color: var(--text-primary);
+    padding: 60px 0 0;
+    position: relative;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.footer-column {
+    margin-bottom: 40px;
+}
+
+.footer-column h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--primary);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: var(--primary);
+}
+
+.footer-column p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 12px;
+}
+
+.footer-column ul li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-column ul li a:hover {
+    color: var(--primary);
+    transform: translateX(5px);
+}
+
+.footer-column ul li a i {
+    font-size: 0.9rem;
+    width: 20px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-icons a {
+    color: var(--text-secondary);
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+}
+
+.social-icons a:hover {
+    color: white;
+    background: var(--primary);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 40px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.footer-bottom a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-column {
+        margin-bottom: 20px;
+    }
+}

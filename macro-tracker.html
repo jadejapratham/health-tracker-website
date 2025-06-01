@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Macro Tracker - NutrifitTech</title>
+    <link rel="stylesheet" href="macro-tracker.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Nutrifit<span>Tech</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="index.html#key-features">Features</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+    </nav>
+
+    
+
+    <section class="macro-tracker-page">
+        <div class="page-header">
+            <h1><i class="fas fa-utensils"></i> Macro Tracker</h1>
+            <p>
+                Track your protein, carbs, and fat intake to optimize your nutrition
+            </p>
+        </div>
+
+        <!-- Daily Summary -->
+        <div class="macro-summary">
+            <div class="macro-card protein">
+                <div class="macro-value" id="proteinConsumed">0g</div>
+                <div class="macro-label">Protein</div>
+                <div class="macro-progress">
+                    <div class="progress-bar" id="proteinProgress"></div>
+                </div>
+                <div class="macro-goal" id="proteinGoal">0/150g</div>
+            </div>
+            <div class="macro-card carbs">
+                <div class="macro-value" id="carbsConsumed">0g</div>
+                <div class="macro-label">Carbs</div>
+                <div class="macro-progress">
+                    <div class="progress-bar" id="carbsProgress"></div>
+                </div>
+                <div class="macro-goal" id="carbsGoal">0/200g</div>
+            </div>
+            <div class="macro-card fat">
+                <div class="macro-value" id="fatConsumed">0g</div>
+                <div class="macro-label">Fat</div>
+                <div class="macro-progress">
+                    <div class="progress-bar" id="fatProgress"></div>
+                </div>
+                <div class="macro-goal" id="fatGoal">0/65g</div>
+            </div>
+        </div>
+
+        <!-- Macro Input Form -->
+        <div class="macro-form-section">
+            <form id="macroForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="foodName"><i class="fas fa-apple-alt"></i> Food Name</label>
+                        <input type="text" id="foodName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="foodQuantity"><i class="fas fa-weight"></i> Quantity (g)</label>
+                        <input type="number" id="foodQuantity" min="1" value="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="foodProtein"><i class="fas fa-dumbbell"></i> Protein (g)</label>
+                        <input type="number" id="foodProtein" min="0" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="foodCarbs"><i class="fas fa-bread-slice"></i> Carbs (g)</label>
+                        <input type="number" id="foodCarbs" min="0" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="foodFat"><i class="fas fa-bacon"></i> Fat (g)</label>
+                        <input type="number" id="foodFat" min="0" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="foodTime"><i class="far fa-clock"></i> Meal Time</label>
+                        <select id="foodTime">
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="snack">Snack</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">
+                        <i class="fas fa-plus"></i> Add Food
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-container">
+            <div class="chart-box">
+                <canvas id="macroTrendChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="macroDistributionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Food History -->
+        <div class="food-history">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Food History</h2>
+            </div>
+            <div class="table-container">
+                <table id="foodTable">
+                    <thead>
+                        <tr>
+                            <th>Food</th>
+                            <th>Protein</th>
+                            <th>Carbs</th>
+                            <th>Fat</th>
+                            <th>Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Nutrifit<span class="color">Tech</span></h3>
+                <p>Personalized Nutrition & Fitness Management for a healthier lifestyle.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About us</a></li>
+                    <li><a href="index.html#key-features">Features</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> support@healthtrack.com</li>
+                    <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Bangalore, India</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 NutrifitTech. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script src="macro-tracker.js"></script>
+</body>
+</html>
