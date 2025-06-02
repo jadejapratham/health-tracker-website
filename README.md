@@ -30,12 +30,6 @@ A responsive and interactive health tracking website built using **HTML, CSS, an
 
 ---
 
-🌐 Live Demo
-
-👉 Click here to view the live site()
-
----
-
 📌 License
 
 This project is open-source and available under the MIT License. Feel free to use, modify, and share.
