@@ -26,7 +26,7 @@ A responsive and interactive health tracking website built using **HTML, CSS, an
 - **HTML5** — Page structure and content  
 - **CSS3** — Styling and layout (flexbox, media queries)  
 - **JavaScript** — Interactivity, form validation, dynamic updates  
-- **Chart.js (optional)** — For fitness progress charts (if used)
+- **Chart.js** — For fitness progress charts
 
 ---
 
