@@ -1,26 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // DOM Elements
+    
     const flexibilityForm = document.getElementById("flexibilityForm");
     const sessionTable = document.getElementById("sessionTable").querySelector("tbody");
     const exportBtn = document.getElementById("exportData");
     const exerciseContainer = document.getElementById("exerciseContainer");
     const addExerciseBtn = document.getElementById("addExercise");
 
-    // Session Data
     let sessions = JSON.parse(localStorage.getItem("flexibilitySessions")) || [];
     let sessionChart = null;
     let currentSort = { column: "date", direction: "desc" };
 
-    // Initialize
     renderSessionTable();
     updateStats();
     renderChart();
     setupSorting();
 
-    // Set default date to today
     document.getElementById("workoutDate").value = new Date().toISOString().split("T")[0];
 
-    // Add Exercise
     addExerciseBtn.addEventListener("click", addExercise);
 
     function addExercise() {
@@ -53,11 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(`.exercise-item[data-id="${id}"]`).remove();
     };
 
-    // Form Submission
     flexibilityForm.addEventListener("submit", function(e) {
         e.preventDefault();
 
-        // Collect exercises
         const exerciseItems = exerciseContainer.querySelectorAll(".exercise-item");
         const exercises = Array.from(exerciseItems).map(item => {
             const id = item.dataset.id;
@@ -79,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
             notes: document.getElementById("notes").value
         };
 
-        // Check if editing existing session
         const editId = flexibilityForm.dataset.editId;
         if (editId) {
             const index = sessions.findIndex(s => s.id == editId);
@@ -100,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("workoutDate").value = new Date().toISOString().split("T")[0];
     });
 
-    // Render session table
     function renderSessionTable() {
         sessionTable.innerHTML = sessions.map(session => `
             <tr data-id="${session.id}">
@@ -121,7 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
         `).join("");
     }
 
-    // Edit session
     window.editSession = function(id) {
         const session = sessions.find(s => s.id == id);
         if (session) {
@@ -132,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("calories").value = session.calories;
             document.getElementById("notes").value = session.notes || "";
             
-            // Clear and re-add exercises
             exerciseContainer.innerHTML = "";
             session.exercises.forEach(ex => {
                 addExercise();
@@ -147,7 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    // Delete session
     window.deleteSession = function(id) {
         if (confirm("Are you sure you want to delete this session?")) {
             sessions = sessions.filter(s => s.id != id);
@@ -158,7 +147,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    // Update statistics
     function updateStats() {
         document.getElementById("totalSessions").textContent = sessions.length;
 
@@ -172,11 +160,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("totalCalories").textContent = totalCalories;
     }
 
-    // Render chart
     function renderChart() {
         const ctx = document.getElementById("sessionChart").getContext("2d");
 
-        // Group by session type
         const typeData = sessions.reduce((acc, session) => {
             if (!acc[session.type]) {
                 acc[session.type] = { duration: 0, count: 0 };
@@ -236,7 +222,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Setup table sorting
     function setupSorting() {
         document.querySelectorAll("#sessionTable th[data-sort]").forEach(th => {
             th.addEventListener("click", function() {
@@ -292,7 +277,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Export data
     exportBtn.addEventListener("click", function() {
         let csv = "Date,Type,Duration (min),Difficulty,Calories,Exercises,Notes\n";
 
@@ -314,12 +298,10 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.removeChild(a);
     });
 
-    // Save to localStorage
     function saveSessions() {
         localStorage.setItem("flexibilitySessions", JSON.stringify(sessions));
     }
 
-    // Modal handling (same as cardio)
     const modal = document.getElementById("loginModal");
     const openModalBtn = document.getElementById("openModalBtn");
     const closeModal = document.querySelector(".close");
