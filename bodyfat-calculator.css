@@ -130,19 +130,6 @@ body {
     font-size: 1rem;
 }
 
-/* Visual Estimator Slider */
-.visual-method input[type="range"] {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.visual-method img {
-    display: block;
-    margin: 10px auto 0;
-    border-radius: 10px;
-}
-
-
 .btn {
     padding: 10px 20px;
     font-size: 1rem;
@@ -178,7 +165,6 @@ body {
     color: #bbb;
 }
 
-/* Responsive Design */
 @media (max-width: 600px) {
     .bodyfat-calculator {
         padding: 20px 10px;
