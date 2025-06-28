@@ -88,7 +88,6 @@ body {
     margin: 0 auto;
 }
 
-/* Time Selector */
 .time-selector {
     margin-bottom: 30px;
     text-align: center;
@@ -245,7 +244,6 @@ body {
     cursor: not-allowed;
 }
 
-/* Responsive Design */
 @media (max-width: 900px) {
     .secondary-charts {
         grid-template-columns: 1fr;
