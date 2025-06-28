@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
+    
     const generateBtn = document.getElementById('generate-btn');
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModalBtn = document.querySelector('.close-btn');
     const modalRecipeContent = document.getElementById('modal-recipe-content');
     
-    // Current week tracking
-    let currentWeekOffset = 0;
-    let calorieGoal = 2000; // Default value
     
-    // Meal database with detailed recipes
+    let currentWeekOffset = 0;
+    let calorieGoal = 2000;
+    
+    
     const mealDB = {
         breakfast: {
             diabetic: {
@@ -380,7 +380,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Grocery categories
     const groceryCategories = {
         vegetables: ["Spinach", "Tomatoes", "Cucumber", "Carrots", "Bell Peppers", "Onions", "Garlic", "Ginger", "Bottle Gourd", "Drumsticks"],
         fruits: ["Apples", "Bananas", "Oranges", "Guava", "Papaya", "Pomegranate"],
@@ -391,37 +390,35 @@ document.addEventListener('DOMContentLoaded', function() {
         others: ["Olive oil", "Honey", "Nuts (almonds, walnuts)", "Seeds (flax, chia)", "Green tea"]
     };
 
-    // Initialize
     setupTabs();
     loadFavorites();
     setupWeekNavigation();
     setupModal();
 
-    // Event Listeners
+
     generateBtn.addEventListener('click', generateMealPlan);
     printGroceryBtn.addEventListener('click', printGroceryList);
     emailGroceryBtn.addEventListener('click', emailGroceryList);
     clearGroceryBtn.addEventListener('click', clearGroceryList);
     closeModalBtn.addEventListener('click', closeModal);
 
-    // Tab functionality
     function setupTabs() {
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const tabId = btn.getAttribute('data-tab');
                 
-                // Update active tab button
+
                 tabBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 
-                // Show corresponding content
+
                 tabContents.forEach(content => content.classList.remove('active'));
                 document.getElementById(tabId).classList.add('active');
             });
         });
     }
 
-    // Week navigation
+
     function setupWeekNavigation() {
         prevWeekBtn.addEventListener('click', () => {
             currentWeekOffset--;
@@ -450,9 +447,8 @@ document.addEventListener('DOMContentLoaded', function() {
         weekDisplay.textContent = `${weekStart.toLocaleDateString('en-US', options)} - ${weekEnd.toLocaleDateString('en-US', options)}`;
     }
 
-    // Modal setup
+
     function setupModal() {
-        // Close modal when clicking outside
         window.addEventListener('click', (e) => {
             if (e.target === document.getElementById('recipe-modal')) {
                 closeModal();
@@ -554,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 
-    // Generate meal plan based on preferences
+
     function generateMealPlan() {
         const isDiabetic = document.getElementById('diabetic').value !== 'no';
         const dietType = document.getElementById('diet').value;
@@ -563,29 +559,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const allergies = Array.from(document.getElementById('allergies').selectedOptions).map(o => o.value);
         const activityLevel = document.getElementById('activity').value;
         
-        // Adjust calorie goal based on activity level
-        const adjustedCalorieGoal = adjustCaloriesForActivity(calorieGoal, activityLevel);
 
-        // Show diabetes tips if needed
+        const adjustedCalorieGoal = adjustCaloriesForActivity(calorieGoal, activityLevel);
         showDiabetesTips(document.getElementById('diabetic').value);
-        
-        // Generate weekly plan
         generateWeeklyPlan(isDiabetic, dietType, region, adjustedCalorieGoal, allergies);
-        
-        // Generate nutrition info
         generateNutritionInfo(adjustedCalorieGoal);
-        
-        // Generate grocery list
         generateGroceryList(allergies);
         
-        // Show meal plan tab
+        
         tabBtns.forEach(b => b.classList.remove('active'));
         tabContents.forEach(c => c.classList.remove('active'));
         document.querySelector('.tab-btn[data-tab="weekly-plan"]').classList.add('active');
         document.getElementById('weekly-plan').classList.add('active');
     }
 
-    // Function to adjust calories based on activity level
+  
     function adjustCaloriesForActivity(baseCalories, activityLevel) {
         const multipliers = {
             'sedentary': 1.0,
@@ -698,7 +686,7 @@ document.addEventListener('DOMContentLoaded', function() {
             !usedMealIds.has(meal.id)
         );
         
-        // Filter by allergies
+  
         if (allergies.length > 0 && !allergies.includes('none')) {
             availableMeals = availableMeals.filter(meal =>
                 !meal.ingredients.some(ingredient =>
@@ -709,13 +697,12 @@ document.addEventListener('DOMContentLoaded', function() {
             );
         }
         
-        // Filter by calorie range
         availableMeals = availableMeals.filter(meal =>
             meal.calories >= minCal && meal.calories <= maxCal && !usedMealIds.has(meal.id)
         );
         
         if (availableMeals.length === 0) {
-            // Fallback to closest calorie match if none in range
+        
             availableMeals = regions.flatMap(reg => 
                 mealDB[mealType]?.[diabeticStatus]?.[reg] || []
             ).filter(meal => 
@@ -727,7 +714,6 @@ document.addEventListener('DOMContentLoaded', function() {
             );
             
             if (availableMeals.length > 0) {
-                // Find closest calorie match
                 availableMeals.sort((a, b) => 
                     Math.abs(a.calories - (minCal + maxCal)/2) - Math.abs(b.calories - (minCal + maxCal)/2)
                 );
@@ -802,7 +788,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function findRecipeById(id) {
-        // Search through all meal categories to find recipe by ID
         for (const category in mealDB) {
             for (const diabeticStatus in mealDB[category]) {
                 for (const region in mealDB[category][diabeticStatus]) {
@@ -863,7 +848,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function generateNutritionInfo(calorieGoal) {
-        // This would calculate based on generated meals
         const nutritionInfo = {
             calories: { value: Math.round(calorieGoal * 0.9), goal: calorieGoal },
             carbs: { value: Math.round(calorieGoal * 0.9 * 0.5 / 4), goal: Math.round(calorieGoal * 0.5 / 4), percent: 50 },
@@ -913,8 +897,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let html = '';
         
         for (const [category, items] of Object.entries(groceryCategories)) {
-            
-            // Filter out allergenic items
             const safeItems = items.filter(item => 
                 !allergies.some(allergy => 
                     item.toLowerCase().includes(allergy.toLowerCase())
@@ -1021,7 +1003,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Helper functions
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
