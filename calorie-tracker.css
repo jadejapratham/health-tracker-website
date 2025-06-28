@@ -281,7 +281,6 @@ tr:hover {
     color: #f44336;
 }
 
-/* Responsive Design */
 @media (max-width: 900px) {
     .tracker-forms,
     .charts-container,
