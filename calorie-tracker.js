@@ -1,24 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // DOM Elements
     const foodForm = document.getElementById("foodForm");
     const activityForm = document.getElementById("activityForm");
     const foodTable = document.getElementById("foodTable").querySelector("tbody");
     const activityTable = document.getElementById("activityTable").querySelector("tbody");
     
-    // Data
     let foods = JSON.parse(localStorage.getItem("calorieTrackerFoods")) || [];
     let activities = JSON.parse(localStorage.getItem("calorieTrackerActivities")) || [];
     let calorieGoal = localStorage.getItem("calorieTrackerGoal") || 2000;
     let calorieTrendChart = null;
     let mealDistributionChart = null;
     
-    // Initialize
     renderFoodTable();
     renderActivityTable();
     updateSummary();
     renderCharts();
     
-    // Form Submissions
     foodForm.addEventListener("submit", function(e) {
         e.preventDefault();
         
@@ -58,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function() {
         activityForm.reset();
     });
     
-    // Render Functions
     function renderFoodTable() {
         foodTable.innerHTML = foods.map(food => `
             <tr data-id="${food.id}">
@@ -96,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function() {
         `).join("");
     }
     
-    // Edit/Delete Functions
     window.editFood = function(id) {
         const food = foods.find(f => f.id == id);
         if (food) {
@@ -148,7 +142,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
     
-    // Update Summary
     function updateSummary() {
         const today = new Date().toISOString().split("T")[0];
         
@@ -168,12 +161,10 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("netCalories").textContent = net;
         document.getElementById("caloriesRemaining").textContent = remaining;
         
-        // Color coding for remaining calories
         const remainingElement = document.getElementById("caloriesRemaining");
         remainingElement.style.color = remaining >= 0 ? "#4CAF50" : "#f44336";
     }
     
-    // Render Charts
     function renderCharts() {
         renderCalorieTrendChart();
         renderMealDistributionChart();
@@ -182,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function renderCalorieTrendChart() {
         const ctx = document.getElementById("calorieTrendChart").getContext("2d");
         
-        // Group by date (last 7 days)
+        
         const dates = [];
         const consumedData = [];
         const burnedData = [];
@@ -252,7 +243,6 @@ document.addEventListener("DOMContentLoaded", function() {
     function renderMealDistributionChart() {
         const ctx = document.getElementById("mealDistributionChart").getContext("2d");
         
-        // Group by meal time
         const mealTimes = ["breakfast", "lunch", "dinner", "snack"];
         const today = new Date().toISOString().split("T")[0];
         
@@ -299,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     
-    // Local Storage Functions
+    
     function saveFoods() {
         localStorage.setItem("calorieTrackerFoods", JSON.stringify(foods));
     }
