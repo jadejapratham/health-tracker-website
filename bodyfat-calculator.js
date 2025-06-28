@@ -73,8 +73,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return categories[gender].find(c => percentage <= c.max).name;
     }
-
-   
-      
-
 });
