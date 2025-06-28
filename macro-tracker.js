@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // DOM Elements
+
     const macroForm = document.getElementById("macroForm");
     const foodTable = document.getElementById("foodTable").querySelector("tbody");
     
-    // Data
+
     let foods = JSON.parse(localStorage.getItem("macroTrackerFoods")) || [];
     let macroGoals = {
         protein: localStorage.getItem("macroGoalProtein") || 150,
@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", function() {
     let macroTrendChart = null;
     let macroDistributionChart = null;
     
-    // Initialize
+
     renderFoodTable();
     updateMacroSummary();
     renderCharts();
     
-    // Form Submission
+
     macroForm.addEventListener("submit", function(e) {
         e.preventDefault();
         
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("foodQuantity").value = 100;
     });
     
-    // Render Functions
+
     function renderFoodTable() {
         foodTable.innerHTML = foods.map(food => `
             <tr data-id="${food.id}">
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         `).join("");
     }
     
-    // Edit/Delete Functions
+   
     window.editFood = function(id) {
         const food = foods.find(f => f.id == id);
         if (food) {
@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("foodCarbs").value = food.carbs;
             document.getElementById("foodFat").value = food.fat;
             document.getElementById("foodTime").value = food.time;
+
             
             foods = foods.filter(f => f.id != id);
             saveFoods();
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
     
-    // Update Summary
+   
     function updateMacroSummary() {
         const today = new Date().toISOString().split("T")[0];
         
@@ -105,12 +106,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 return acc;
             }, { protein: 0, carbs: 0, fat: 0 });
         
-        // Update values
+   
         document.getElementById("proteinConsumed").textContent = totals.protein.toFixed(1) + "g";
         document.getElementById("carbsConsumed").textContent = totals.carbs.toFixed(1) + "g";
         document.getElementById("fatConsumed").textContent = totals.fat.toFixed(1) + "g";
         
-        // Update progress bars
+   
         const proteinPercent = Math.min(100, (totals.protein / macroGoals.protein) * 100);
         const carbsPercent = Math.min(100, (totals.carbs / macroGoals.carbs) * 100);
         const fatPercent = Math.min(100, (totals.fat / macroGoals.fat) * 100);
@@ -119,13 +120,13 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("carbsProgress").style.width = carbsPercent + "%";
         document.getElementById("fatProgress").style.width = fatPercent + "%";
         
-        // Update goal text
+   
         document.getElementById("proteinGoal").textContent = `${totals.protein.toFixed(1)}/${macroGoals.protein}g`;
         document.getElementById("carbsGoal").textContent = `${totals.carbs.toFixed(1)}/${macroGoals.carbs}g`;
         document.getElementById("fatGoal").textContent = `${totals.fat.toFixed(1)}/${macroGoals.fat}g`;
     }
     
-    // Render Charts
+   
     function renderCharts() {
         renderMacroTrendChart();
         renderMacroDistributionChart();
@@ -134,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function renderMacroTrendChart() {
         const ctx = document.getElementById("macroTrendChart").getContext("2d");
         
-        // Group by date (last 7 days)
+   
         const dates = [];
         const proteinData = [];
         const carbsData = [];
@@ -272,12 +273,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     
-    // Local Storage Functions
+   
     function saveFoods() {
         localStorage.setItem("macroTrackerFoods", JSON.stringify(foods));
     }
     
-    // Modal handling
+    // if login/signup model using 
     const modal = document.getElementById("loginModal");
     const openModalBtn = document.getElementById("openModalBtn");
     const closeModal = document.querySelector(".close");
