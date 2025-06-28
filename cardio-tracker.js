@@ -1,28 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // DOM Elements
+  
   const cardioForm = document.getElementById("cardioForm");
   const workoutTable = document
     .getElementById("workoutTable")
     .querySelector("tbody");
   const exportBtn = document.getElementById("exportData");
 
-  // Workout Data
+  
   let workouts = JSON.parse(localStorage.getItem("cardioWorkouts")) || [];
   let workoutChart = null;
   let currentSort = { column: "date", direction: "desc" };
 
-  // Initialize
+  
   renderWorkoutTable();
   updateStats();
   renderChart();
   setupSorting();
 
-  // Set default date to today
+
   document.getElementById("workoutDate").value = new Date()
     .toISOString()
     .split("T")[0];
 
-  // Form Submission
+  
   cardioForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
       notes: document.getElementById("notes").value,
     };
 
-    // Check if we're editing an existing workout
+  
     const editId = cardioForm.dataset.editId;
     if (editId) {
       const index = workouts.findIndex((w) => w.id == editId);
@@ -66,21 +66,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const type = document.getElementById("workoutType").value;
     const duration = parseInt(document.getElementById("duration").value) || 0;
 
-    // MET values for different activities
+  
     const metValues = {
       running: 8,
       cycling: 6,
       swimming: 7,
     };
 
-    // Calories = MET * weight (kg) * time (hours)
-    // Using 70kg as default weight (can be made configurable)
+  
     const calories = Math.round(metValues[type] * 70 * (duration / 60));
     document.getElementById("calories").value = calories;
     return calories;
   }
 
-  // Render workout table
+  
   function renderWorkoutTable() {
     workoutTable.innerHTML = workouts
       .map(
@@ -113,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .join("");
   }
 
-  // Edit workout
+  
   window.editWorkout = function (id) {
     const workout = workouts.find((w) => w.id == id);
     if (workout) {
@@ -129,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // Delete workout
+  
   window.deleteWorkout = function (id) {
     if (confirm("Are you sure you want to delete this workout?")) {
       workouts = workouts.filter((w) => w.id != id);
@@ -140,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // Update statistics
+  
   function updateStats() {
     document.getElementById("totalWorkouts").textContent = workouts.length;
 
@@ -154,11 +153,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("totalCalories").textContent = totalCalories;
   }
 
-  // Render chart
+  
   function renderChart() {
     const ctx = document.getElementById("workoutChart").getContext("2d");
 
-    // Group by activity type
+  
     const activityData = workouts.reduce((acc, workout) => {
       if (!acc[workout.type]) {
         acc[workout.type] = { duration: 0, count: 0 };
@@ -224,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Setup table sorting
+  
   function setupSorting() {
     document.querySelectorAll("#workoutTable th[data-sort]").forEach((th) => {
       th.addEventListener("click", function () {
@@ -288,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Export data
+  
   exportBtn.addEventListener("click", function () {
     let csv = "Date,Activity,Duration (min),Distance (km),Calories,Notes\n";
 
@@ -310,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.removeChild(a);
   });
 
-  // Save to localStorage
+  
   function saveWorkouts() {
     localStorage.setItem("cardioWorkouts", JSON.stringify(workouts));
   }
