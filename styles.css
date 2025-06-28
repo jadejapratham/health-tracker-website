@@ -218,7 +218,7 @@ html {
     color: white;
 }
 
-/* Profile Dropdown Styles */
+
 .user-profile {
     position: relative;
     display: flex;
@@ -284,7 +284,7 @@ html {
     color: white;
 }
   
-/* Show dropdown when hovering OR when clicked (for mobile) */
+
 .profile-dropdown:hover .dropdown-content,
 .profile-dropdown.show-dropdown .dropdown-content {
     display: block;
@@ -294,12 +294,11 @@ html {
     display: block;
 }
   
-/* Modal transitions */
+
 .modal {
     transition: opacity 0.3s ease;
 }
 
-/* Profile Edit Modal Styles */
 .profile-picture-container {
     text-align: center;
     margin-bottom: 20px;
@@ -326,30 +325,17 @@ html {
     background: rgba(76, 175, 80, 0.1);
 }
   
-/* Social Login Button States */
+
 .social-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-}
-  
-/* Loading Spinner */
-.spinner {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255,255,255,.3);
-    border-radius: 50%;
-    border-top-color: #fff;
-    animation: spin 1s ease-in-out infinite;
-    margin-right: 10px;
-    vertical-align: middle;
 }
   
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
   
-/* Error message styling */
+
 .error-message {
     color: #ff6b6b;
     font-size: 0.9rem;
@@ -732,13 +718,13 @@ html {
     padding: 23px;
     border-radius: 25px;
     width: 400px;
-    margin: 5% auto; /* Changed from 10% to 5% to move it up */
+    margin: 5% auto;
     text-align: center;
     backdrop-filter: blur(20px);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.603);
     animation: fadeIn 0.5s ease-in-out;
     position: relative;
-    top: -50px; /* This will pull the modal up slightly */
+    top: -50px;
 }
 
 .close {
@@ -840,13 +826,13 @@ input:-webkit-autofill::first-line {
     }
 }
 
-/* Modal scroll lock */
+
 body.modal-open {
     overflow: hidden;
     height: 100%;
 }
   
-/* Social Login Styles */
+
 .social-login {
     display: flex;
     flex-direction: column;
@@ -913,7 +899,7 @@ body.modal-open {
     margin-left: 10px;
 }
   
-/* Loading spinner */
+
 .spinner {
     display: none;
     width: 20px;
@@ -929,7 +915,6 @@ body.modal-open {
     to { transform: rotate(360deg); }
 }
 
-/* Fix z-index issue with navbar */
 .navbar {
     z-index: 1001;
 }
