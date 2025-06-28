@@ -1,26 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // DOM Elements
     const strengthForm = document.getElementById("strengthForm");
     const workoutTable = document.getElementById("workoutTable").querySelector("tbody");
     const exportBtn = document.getElementById("exportData");
     const exerciseContainer = document.getElementById("exerciseContainer");
     const addExerciseBtn = document.getElementById("addExercise");
-
-    // Workout Data
     let workouts = JSON.parse(localStorage.getItem("strengthWorkouts")) || [];
     let workoutChart = null;
     let currentSort = { column: "date", direction: "desc" };
-
-    // Initialize
+    
     renderWorkoutTable();
     updateStats();
     renderChart();
     setupSorting();
 
-    // Set default date to today
     document.getElementById("workoutDate").value = new Date().toISOString().split("T")[0];
 
-    // Add Exercise
     addExerciseBtn.addEventListener("click", addExercise);
 
     function addExercise() {
@@ -55,11 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(`.exercise-item[data-id="${id}"]`).remove();
     };
 
-    // Form Submission
     strengthForm.addEventListener("submit", function(e) {
         e.preventDefault();
 
-        // Collect exercises
         const exerciseItems = exerciseContainer.querySelectorAll(".exercise-item");
         const exercises = Array.from(exerciseItems).map(item => {
             const id = item.dataset.id;
@@ -81,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
             notes: document.getElementById("notes").value
         };
 
-        // Check if editing existing workout
         const editId = strengthForm.dataset.editId;
         if (editId) {
             const index = workouts.findIndex(w => w.id == editId);
@@ -102,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("workoutDate").value = new Date().toISOString().split("T")[0];
     });
 
-    // Render workout table
     function renderWorkoutTable() {
         workoutTable.innerHTML = workouts.map(workout => `
             <tr data-id="${workout.id}">
@@ -123,7 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
         `).join("");
     }
 
-    // Edit workout
     window.editWorkout = function(id) {
         const workout = workouts.find(w => w.id == id);
         if (workout) {
@@ -133,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("calories").value = workout.calories;
             document.getElementById("notes").value = workout.notes || "";
             
-            // Clear and re-add exercises
             exerciseContainer.innerHTML = "";
             workout.exercises.forEach(ex => {
                 addExercise();
@@ -149,7 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    // Delete workout
     window.deleteWorkout = function(id) {
         if (confirm("Are you sure you want to delete this workout?")) {
             workouts = workouts.filter(w => w.id != id);
@@ -160,7 +147,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    // Update statistics
     function updateStats() {
         document.getElementById("totalWorkouts").textContent = workouts.length;
 
@@ -174,11 +160,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("totalCalories").textContent = totalCalories;
     }
 
-    // Render chart
     function renderChart() {
         const ctx = document.getElementById("workoutChart").getContext("2d");
 
-        // Group by workout type
         const typeData = workouts.reduce((acc, workout) => {
             if (!acc[workout.type]) {
                 acc[workout.type] = { duration: 0, count: 0 };
@@ -244,7 +228,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Setup table sorting
     function setupSorting() {
         document.querySelectorAll("#workoutTable th[data-sort]").forEach(th => {
             th.addEventListener("click", function() {
@@ -299,7 +282,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Export data
     exportBtn.addEventListener("click", function() {
         let csv = "Date,Type,Duration (min),Exercises,Calories,Notes\n";
 
@@ -321,14 +303,13 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.removeChild(a);
     });
 
-    // Save to localStorage
     function saveWorkouts() {
         localStorage.setItem("strengthWorkouts", JSON.stringify(workouts));
     }
 
     
 
-    // MET values for different activities
+    
     const metValues = {
         'running': 11.5,
         'cycling': 8.0,
@@ -343,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
         'soccer': 7.0
     };
 
-    // Get modal elements
+    
     const modal = document.getElementById('caloriesModal');
     const btn = document.getElementById('caloriesBtn');
     const closeBtn = document.querySelector('#caloriesModal .close');
@@ -353,31 +334,27 @@ document.addEventListener("DOMContentLoaded", function () {
     const weightInput = document.getElementById('weight');
     const formDuration = document.querySelector('#strengthForm #duration');
 
-    // Open the calculator modal
+    
     btn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         modal.style.display = 'block';
         
-        // Pre-fill duration from form if available
         if (formDuration.value) {
             modalDuration.value = formDuration.value;
         }
     });
 
-    // Close the calculator modal
     closeBtn.addEventListener('click', function() {
         modal.style.display = 'none';
         resultElement.style.display = 'none';
     });
 
-    // Calculate calories
     calculateBtn.addEventListener('click', function() {
         const activity = document.getElementById('activity').value;
         const duration = parseFloat(modalDuration.value);
         const weight = parseFloat(weightInput.value);
         
-        // Validate inputs
         if (isNaN(duration) || duration <= 0) {
             alert('Please enter a valid duration (greater than 0 minutes)');
             return;
@@ -388,7 +365,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
         
-        // Calculate and display results
         const met = metValues[activity];
         const calories = met * weight * (duration / 60);
         
@@ -398,7 +374,6 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         resultElement.style.display = 'block';
         
-        // Update the calories field in the main form
         document.getElementById('calories').value = calories.toFixed(0);
     });
 
