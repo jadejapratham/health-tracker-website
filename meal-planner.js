@@ -1,8 +1,7 @@
-// meal-planner.js
 class MealPlanner {
   constructor(database) {
     this.database = database;
-    this.generatedPlans = {}; // { userId: [mealId1, mealId2, ...] }
+    this.generatedPlans = {}; 
     this.nutritionStandards = {
       diabetic: {
         carbsRatio: 0.45,
@@ -30,18 +29,18 @@ class MealPlanner {
     const weeklyPlan = {};
     const diabeticStatus = isDiabetic ? "diabetic" : "regular";
 
-    // Initialize user's meal history if not exists
+    
     if (!this.generatedPlans[userId]) {
       this.generatedPlans[userId] = [];
     }
 
-    // Generate for 7 days
+    
     for (let day = 0; day < 7; day++) {
       const date = new Date();
       date.setDate(date.getDate() + day);
       const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
 
-      // Calculate meal calorie targets
+      
       const mealTargets = this.calculateMealCalories(
         calorieGoal,
         diabeticStatus
@@ -96,7 +95,7 @@ class MealPlanner {
         },
       };
 
-      // Calculate daily nutrition totals
+      
       for (const meal of Object.values(weeklyPlan[dayName].meals)) {
         weeklyPlan[dayName].nutrition.totalCalories += meal.nutrition.calories;
         weeklyPlan[dayName].nutrition.totalCarbs += meal.nutrition.carbs;
@@ -110,7 +109,7 @@ class MealPlanner {
   }
 
   calculateMealCalories(totalCalories, diabeticStatus) {
-    // Adjust distribution based on diabetic status
+    
     if (diabeticStatus === "diabetic") {
       return {
         breakfast: Math.round(totalCalories * 0.25),
@@ -137,7 +136,7 @@ class MealPlanner {
     allergies,
     userId
   ) {
-    // Get all possible meals that match criteria
+    
     let candidates = this.getCandidateMeals(
       mealType,
       diabeticStatus,
@@ -146,18 +145,18 @@ class MealPlanner {
       allergies
     );
 
-    // Filter by calorie range (±20% of target)
+    
     candidates = candidates.filter(
       (meal) =>
         meal.nutrition.calories >= targetCalories * 0.8 &&
         meal.nutrition.calories <= targetCalories * 1.2
     );
 
-    // Filter out recently used meals (last 5 meals)
+    
     const usedMeals = this.generatedPlans[userId].slice(-5);
     candidates = candidates.filter((meal) => !usedMeals.includes(meal.id));
 
-    // If no candidates, expand calorie range
+    
     if (candidates.length === 0) {
       candidates = this.getCandidateMeals(
         mealType,
@@ -168,7 +167,7 @@ class MealPlanner {
       ).filter((meal) => !usedMeals.includes(meal.id));
     }
 
-    // If still no candidates, allow some repetition
+    
     if (candidates.length === 0) {
       candidates = this.getCandidateMeals(
         mealType,
@@ -179,17 +178,17 @@ class MealPlanner {
       );
     }
 
-    // Select meal based on frequency weight
+    
     const selectedMeal = this.selectByFrequencyWeight(candidates);
 
-    // Track generated meal
+  
     this.generatedPlans[userId].push(selectedMeal.id);
 
     return selectedMeal;
   }
 
   getCandidateMeals(mealType, diabeticStatus, dietType, region, allergies) {
-    // Get base meals for the category
+  
     let meals = [];
     const regions = region === "all" ? this.database.regions : [region];
 
@@ -205,10 +204,10 @@ class MealPlanner {
       }
     });
 
-    // Filter by diet type
+    
     meals = meals.filter((meal) => meal.suitableFor.diets.includes(dietType));
 
-    // Filter by allergies
+    
     if (allergies && allergies.length > 0 && !allergies.includes("none")) {
       meals = meals.filter((meal) =>
         allergies.every(
@@ -239,7 +238,7 @@ class MealPlanner {
       };
     }
 
-    // Create weighted array based on frequencyWeight
+    
     const weightedArray = [];
     meals.forEach((meal) => {
       const weight = meal.frequencyWeight || 1;
@@ -248,14 +247,14 @@ class MealPlanner {
       }
     });
 
-    // Random selection from weighted array
+    
     return weightedArray[Math.floor(Math.random() * weightedArray.length)];
   }
 
   generateGroceryList(weeklyPlan) {
     const groceryItems = {};
 
-    // Aggregate ingredients from all meals
+    
     for (const day of Object.values(weeklyPlan)) {
       for (const meal of Object.values(day.meals)) {
         meal.ingredients.forEach((ingredient) => {
@@ -266,14 +265,12 @@ class MealPlanner {
               meals: [meal.name],
             };
           } else {
-            // Combine quantities (simplified logic - in real app would convert units)
             groceryItems[name].meals.push(meal.name);
           }
         });
       }
     }
 
-    // Categorize items
     const categorizedList = {
       vegetables: [],
       fruits: [],
@@ -284,7 +281,7 @@ class MealPlanner {
       others: [],
     };
 
-    // Simple categorization (in real app would use more sophisticated matching)
+
     for (const [item, details] of Object.entries(groceryItems)) {
       const lowerItem = item.toLowerCase();
 
