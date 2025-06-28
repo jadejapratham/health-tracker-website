@@ -1,4 +1,3 @@
-// meal-database.js
 const mealDatabase = {
   categories: {
     breakfast: {
