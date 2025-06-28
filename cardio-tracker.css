@@ -294,7 +294,6 @@ body {
     color: #f44336;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .form-grid {
         grid-template-columns: 1fr;
