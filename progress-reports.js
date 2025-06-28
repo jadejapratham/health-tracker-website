@@ -1,20 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // DOM Elements
+
     const timePeriodSelect = document.getElementById("timePeriod");
     const exportBtn = document.getElementById("exportReport");
     
-    // Chart instances
+
     let weightChart = null;
     let calorieChart = null;
     let macroChart = null;
     let workoutChart = null;
     
-    // Initialize
+
     loadData();
     renderCharts();
     generateInsights();
     
-    // Event Listeners
+
     timePeriodSelect.addEventListener("change", function() {
         loadData();
         renderCharts();
@@ -23,14 +23,11 @@ document.addEventListener("DOMContentLoaded", function() {
     
     exportBtn.addEventListener("click", exportReport);
     
-    // Load Data
+
     function loadData() {
-        // In a real app, this would fetch data from your database/API
-        // For this example, we'll use mock data
         console.log(`Loading data for ${timePeriodSelect.value} days`);
     }
     
-    // Render Charts
     function renderCharts() {
         renderWeightChart();
         renderCalorieChart();
@@ -40,8 +37,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
     function renderWeightChart() {
         const ctx = document.getElementById("weightChart").getContext("2d");
-        
-        // Mock data - in a real app, this would come from your database
         const days = generateDateLabels(parseInt(timePeriodSelect.value));
         const weights = generateRandomData(150, 170, days.length, 0.5);
         
@@ -77,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
         
-        // Update summary
         if (weights.length > 1) {
             const change = weights[weights.length - 1] - weights[0];
             const changeText = change > 0 ? `+${change.toFixed(1)}` : change.toFixed(1);
@@ -134,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
         
-        // Update summary
         if (consumed.length > 0) {
             const avg = Math.round(consumed.reduce((a, b) => a + b, 0) / consumed.length);
             document.getElementById("avgCalories").textContent = avg;
@@ -229,12 +222,12 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
         
-        // Update summary
+        
         document.getElementById("workoutsCompleted").textContent = workoutData.reduce((a, b) => a + b, 0);
         document.getElementById("avgSteps").textContent = Math.floor(Math.random() * 3000) + 7000;
     }
     
-    // Generate Insights
+    
     function generateInsights() {
         const insights = [
             {
@@ -265,66 +258,46 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("insightsContent").innerHTML = insightsHTML;
     }
     
-    // Export Report
     function exportReport() {
-        // Show loading state
         const exportBtn = document.getElementById("exportReport");
         const originalText = exportBtn.innerHTML;
         exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Report...';
         exportBtn.disabled = true;
     
-        // Create a new PDF instance with better margins
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'pt', 'a4');
         const pageWidth = doc.internal.pageSize.getWidth();
         const margin = 40; // Consistent margin on all sides
         const date = new Date().toLocaleDateString();
     
-        // Set default font
         doc.setFont('helvetica');
-    
-        // Add title page
         doc.setFontSize(28);
         doc.setTextColor(76, 175, 80);
         doc.text('NutrifitTech Progress Report', pageWidth/2, 80, { align: 'center' });
-        
         doc.setFontSize(16);
         doc.setTextColor(100, 100, 100);
         doc.text('Your Comprehensive Health Analysis', pageWidth/2, 120, { align: 'center' });
-        
-        // Add logo or decorative element
         doc.setDrawColor(76, 175, 80);
         doc.setLineWidth(2);
         doc.line(margin, 140, pageWidth - margin, 140);
-        
-        // Report details
         doc.setFontSize(14);
         doc.setTextColor(0, 0, 0);
         doc.text(`Generated on: ${date}`, pageWidth/2, 180, { align: 'center' });
         doc.text(`Time Period: ${timePeriodSelect.options[timePeriodSelect.selectedIndex].text}`, pageWidth/2, 210, { align: 'center' });
-        
-        // Add a decorative footer
         doc.setDrawColor(200, 200, 200);
         doc.setLineWidth(1);
         doc.line(margin, 700, pageWidth - margin, 700);
         doc.setFontSize(10);
         doc.setTextColor(100, 100, 100);
         doc.text('Confidential Health Report - For Personal Use Only', pageWidth/2, 720, { align: 'center' });
-    
-        // Add summary section on new page
         doc.addPage();
         let yPosition = margin;
-        
-        // Section header
         doc.setFontSize(20);
         doc.setTextColor(76, 175, 80);
         doc.text('Key Metrics Summary', margin, yPosition);
         yPosition += 40;
-        
-        // Summary cards
         const cardHeight = 80;
         const cardWidth = (pageWidth - (margin * 3)) / 2;
-        
         const summaries = [
             { 
                 label: 'Weight Change', 
@@ -348,34 +321,28 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         ];
         
-        // Draw summary cards in 2x2 grid
+        
         summaries.forEach((summary, i) => {
             const x = margin + (i % 2) * (cardWidth + margin);
             const y = yPosition + Math.floor(i / 2) * (cardHeight + margin/2);
             
-            // Card background
+        
             doc.setFillColor(245, 245, 245);
             doc.roundedRect(x, y, cardWidth, cardHeight, 5, 5, 'F');
             doc.setDrawColor(200, 200, 200);
             doc.roundedRect(x, y, cardWidth, cardHeight, 5, 5, 'S');
-            
-            // Card content
             doc.setFontSize(14);
             doc.setTextColor(76, 175, 80);
             doc.text(summary.label, x + 60, y + 25);
-            
             doc.setFontSize(24);
             doc.setTextColor(0, 0, 0);
             doc.text(summary.value, x + 60, y + 55);
-            
-            // Icon placeholder (we can't render FontAwesome directly, so using colored circle)
             doc.setFillColor(76, 175, 80);
             doc.circle(x + 30, y + 40, 15, 'F');
         });
         
         yPosition += (cardHeight * 2) + margin;
     
-        // Add charts with proper spacing
         const capturePromises = [];
         const chartConfigs = [
             { id: 'weightChart', title: 'Weight Trend Analysis', cols: 1 },
@@ -384,11 +351,11 @@ document.addEventListener("DOMContentLoaded", function() {
             { id: 'workoutChart', title: 'Workout Activity Breakdown', cols: 1 }
         ];
         
-        // Capture all charts first
+    
         chartConfigs.forEach(config => {
             capturePromises.push(
                 html2canvas(document.getElementById(config.id), {
-                    scale: 2, // Higher quality
+                    scale: 2,
                     logging: false,
                     useCORS: true
                 }).then(canvas => {
@@ -402,23 +369,23 @@ document.addEventListener("DOMContentLoaded", function() {
             );
         });
     
-        // Wait for all charts to be captured
+
         Promise.all(capturePromises).then(results => {
-            // Add charts to PDF with proper spacing
+
             results.forEach((result, index) => {
-                // Add new page for each chart (for better readability)
+
                 if (index > 0) {
                     doc.addPage();
                     yPosition = margin;
                 }
                 
-                // Chart title
+
                 doc.setFontSize(18);
                 doc.setTextColor(76, 175, 80);
                 doc.text(result.title, margin, yPosition);
                 yPosition += 30;
                 
-                // Chart description
+
                 doc.setFontSize(12);
                 doc.setTextColor(100, 100, 100);
                 const description = getChartDescription(result.id);
@@ -426,19 +393,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 doc.text(splitDesc, margin, yPosition);
                 yPosition += splitDesc.length * 15 + 20;
                 
-                // Add the chart image
+
                 const imgWidth = pageWidth - (margin * 2);
                 const imgHeight = (result.id === 'weightChart' || result.id === 'calorieChart') ? 300 : 250;
-                
+        
                 doc.addImage(result.image, 'PNG', margin, yPosition, imgWidth, imgHeight);
                 yPosition += imgHeight + 20;
-                
-                // Add analysis insights
                 doc.setFontSize(14);
                 doc.setTextColor(76, 175, 80);
                 doc.text('Key Observations:', margin, yPosition);
-                yPosition += 20;
-                
+                yPosition += 20;                
                 doc.setFontSize(12);
                 doc.setTextColor(0, 0, 0);
                 const insights = getChartInsights(result.id);
@@ -446,7 +410,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 doc.text(splitInsights, margin, yPosition);
             });
     
-            // Add dedicated insights page
+
             doc.addPage();
             yPosition = margin;
             
@@ -461,13 +425,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 const title = insight.querySelector('.insight-title').textContent;
                 const text = insight.querySelector('.insight-text').textContent;
                 
-                // Insight header
+        
                 doc.setFontSize(16);
                 doc.setTextColor(76, 175, 80);
                 doc.text(`${i + 1}. ${title}`, margin, yPosition);
                 yPosition += 25;
-                
-                // Insight text with proper line spacing
                 doc.setFontSize(12);
                 doc.setTextColor(0, 0, 0);
                 
@@ -475,40 +437,33 @@ document.addEventListener("DOMContentLoaded", function() {
                 doc.text(splitText, margin, yPosition);
                 yPosition += splitText.length * 15 + 20;
                 
-                // Add divider between insights (except last one)
                 if (i < insights.length - 1) {
                     doc.setDrawColor(220, 220, 220);
                     doc.line(margin, yPosition, pageWidth - margin, yPosition);
                     yPosition += 20;
                 }
                 
-                // Add new page if running out of space
+            
                 if (yPosition > 650) {
                     doc.addPage();
                     yPosition = margin;
                 }
             });
     
-            // Add footer to all pages
+            
             const pageCount = doc.internal.getNumberOfPages();
             for (let i = 1; i <= pageCount; i++) {
                 doc.setPage(i);
-                
-                // Footer line
                 doc.setDrawColor(200, 200, 200);
                 doc.line(margin, 800, pageWidth - margin, 800);
-                
-                // Footer text
                 doc.setFontSize(10);
                 doc.setTextColor(100, 100, 100);
                 doc.text(`Page ${i} of ${pageCount}`, margin, 810);
                 doc.text('© 2023 NutrifitTech - Confidential Health Report', pageWidth - margin, 810, { align: 'right' });
             }
     
-            // Save the PDF
             doc.save(`NutrifitTech_Report_${date.replace(/\//g, '-')}.pdf`);
             
-            // Restore button state
             exportBtn.innerHTML = originalText;
             exportBtn.disabled = false;
         }).catch(error => {
@@ -518,7 +473,7 @@ document.addEventListener("DOMContentLoaded", function() {
             exportBtn.disabled = false;
         });
     
-        // Helper functions for chart descriptions and insights
+
         function getChartDescription(chartId) {
             const descriptions = {
                 'weightChart': 'This chart shows your daily weight fluctuations over the selected period. Consistent downward trends indicate effective progress, while plateaus may suggest the need for adjustments.',
@@ -540,7 +495,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     
-    // Helper Functions
+
     function generateDateLabels(days) {
         const labels = [];
         for (let i = days - 1; i >= 0; i--) {
@@ -561,7 +516,5 @@ document.addEventListener("DOMContentLoaded", function() {
             current = Math.max(min, Math.min(max, current));
         }
         
-        return data;
-    }
-    
+        return data;    
 });
