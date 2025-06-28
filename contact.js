@@ -1,4 +1,4 @@
-// not: only for login/signup button or default contact form submission. 
+// note: only for login/signup button or default contact form submission. 
 
 document.addEventListener("DOMContentLoaded", function () {
     const contactForm = document.getElementById("contactForm");
